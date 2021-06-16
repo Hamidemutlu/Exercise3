@@ -2,6 +2,7 @@ package at.ac.fhcampuswien.newsanalyzer.ui;
 
 
 import at.ac.fhcampuswien.newsanalyzer.ctrl.Controller;
+import at.ac.fhcampuswien.newsapi.enums.Category;
 
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -12,30 +13,37 @@ public class UserInterface
 	private Controller ctrl = new Controller();
 
 	public void getDataFromCtrl1(){
-		System.out.println("ABC");
-
-		ctrl.process();
+		System.out.println("Search for Intel");
+		ctrl.process("intel", Category.technology);
 	}
 
 	public void getDataFromCtrl2(){
 		// TODO implement me
+		System.out.println("Search for Corona");
+		ctrl.process("corona", Category.health);
 	}
 
 	public void getDataFromCtrl3(){
 		// TODO implement me
+		System.out.println("Search for Fußball");
+		ctrl.process("fußball", Category.sports);
 	}
 	
 	public void getDataForCustomInput() {
 		// TODO implement me
+		System.out.print("Search for?\n>");
+		String userInput = readLine();
+		System.out.println("Search for " + userInput);
+		ctrl.process(userInput, null);
 	}
 
 
 	public void start() {
 		Menu<Runnable> menu = new Menu<>("User Interface");
 		menu.setTitle("Wählen Sie aus:");
-		menu.insert("a", "Choice ABC", this::getDataFromCtrl1);
-		menu.insert("b", "Choice DEF", this::getDataFromCtrl2);
-		menu.insert("c", "Choice 3", this::getDataFromCtrl3);
+		menu.insert("a", "Choice Intel", this::getDataFromCtrl1);
+		menu.insert("b", "Choice Corona", this::getDataFromCtrl2);
+		menu.insert("c", "Choice Fußball", this::getDataFromCtrl3);
 		menu.insert("d", "Choice User Input:",this::getDataForCustomInput);
 		menu.insert("q", "Quit", null);
 		Runnable choice;
@@ -54,27 +62,5 @@ public class UserInterface
         } catch (IOException ignored) {
 		}
 		return value.trim();
-	}
-
-	protected Double readDouble(int lowerlimit, int upperlimit) 	{
-		Double number = null;
-        while (number == null) {
-			String str = this.readLine();
-			try {
-				number = Double.parseDouble(str);
-            } catch (NumberFormatException e) {
-                number = null;
-				System.out.println("Please enter a valid number:");
-				continue;
-			}
-            if (number < lowerlimit) {
-				System.out.println("Please enter a higher number:");
-                number = null;
-            } else if (number > upperlimit) {
-				System.out.println("Please enter a lower number:");
-                number = null;
-			}
-		}
-		return number;
 	}
 }
